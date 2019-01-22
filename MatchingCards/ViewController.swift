@@ -16,12 +16,17 @@ class ViewController: UIViewController {
         return  (visibleCards.count + 1) / 2
     }
     
-
-    
     var emoji = [Card:String]()
     
     var emojiChoices = ["🎃", "🦇", "🧛‍♂️", "🧙‍♀️", "🍭", "🍬", "😈", "👻", "😱", "🤡", "🙀", "🧞‍♀️", "🦉"]
-
+    
+    func updateEmojiSize(_ emoji: String) -> NSAttributedString {
+        
+        let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: cardButtons[0].bounds.size.height * 0.5)]
+        let attributedString = NSAttributedString(string: emoji, attributes: attributes)
+        return attributedString
+    }
+    
     @IBOutlet weak var scoreLabel: UILabel!
     
     @IBOutlet var cardButtons: [UIButton]!
@@ -29,7 +34,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var flipCountLabel: UILabel!
     
     @IBAction func newGame(_ sender: UIButton) {
-
         game.resetProgress()
         updateViewFromModel()
     }
@@ -61,11 +65,11 @@ class ViewController: UIViewController {
             let button = visibleCards[index]
             let card = game.cards[index]
             if card.isFaceUp {
-                button.setTitle(emoji(for: card), for: UIControl.State.normal)
+                button.setAttributedTitle(updateEmojiSize(emoji(for: card)), for: UIControl.State.normal)
                 button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 button.isEnabled = true
             } else {
-                button.setTitle("", for: UIControl.State.normal)
+                button.setAttributedTitle(updateEmojiSize(""), for: UIControl.State.normal)
                 if card.isMatched {
                     button.backgroundColor =  #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0)
                     button.isEnabled = false

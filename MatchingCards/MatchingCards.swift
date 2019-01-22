@@ -21,6 +21,7 @@ class MatchingCards {
         static let missMatchPoints = 1
     }
     
+    
     var openedCards = [Int]()
     
     var indexOfFaceUpCard: Int? {
